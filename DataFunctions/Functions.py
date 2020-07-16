@@ -9,7 +9,6 @@ import re
 import pandas as pd
 import json
 from elasticsearch import Elasticsearch, helpers
-from pandasticsearch import Select
 
 def getInputParagraphs():
     return defaults.paragraphs
