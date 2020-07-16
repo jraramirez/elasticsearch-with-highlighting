@@ -3,3 +3,6 @@ notebooks/*
 
 data/*
 !data/.gitkeep 
+
+# Python temporary files
+__pycache__/

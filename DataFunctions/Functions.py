@@ -11,7 +11,20 @@ import json
 from elasticsearch import Elasticsearch, helpers
 
 def getInputParagraphs():
-    return defaults.paragraphs
+    es = Elasticsearch(['http://' + defaults.credentials["username"] + ':' + defaults.credentials["password"] + '@' + defaults.credentials["ip_and_port"]], timeout=600)
+    doc = {
+        'size' : 10000,
+        'query': {
+            'match_all' : {}
+        }
+    }
+    result = es.search(index="patent-paragraphs", body=doc)
+    paragraphs = []
+    for paragraph in result["hits"]["hits"]:
+        paragraphs.append(paragraph["_source"]["originalParagraph"])
+    return paragraphs
+
+    # return defaults.paragraphs
 
 
 def preProcessParagraphs(paragraphs):
@@ -43,7 +56,7 @@ def search(data):
                 }
             }
         }
-        result = es.search(index="technical-paragraphs", body=doc, scroll='1m')
+        result = es.search(index="technical-paragraphs", body=doc)
         result["inputParagraph"] = d
         results.append(result)
     return {"searchResults": results}
