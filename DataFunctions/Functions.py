@@ -43,7 +43,7 @@ def search(data):
                 }
             }
         }
-        result = es.search(index="paragraphs", body=doc, scroll='1m')
+        result = es.search(index="technical-paragraphs", body=doc, scroll='1m')
         result["inputParagraph"] = d
         results.append(result)
     return {"searchResults": results}
@@ -52,7 +52,6 @@ def search(data):
 def getWordsToHighlight(data):
     for d in data["searchResults"]:
         inputParagraph = d["inputParagraph"]
-        listOfWordsToHighlight = []
         paragraphWordsLemmatized = inputParagraph.split(" ")
         for hit in d["hits"]["hits"]:
             wordsToHighlight = []

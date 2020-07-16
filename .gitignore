@@ -1,0 +1,5 @@
+notebooks/*
+!notebooks/.gitkeep 
+
+data/*
+!data/.gitkeep 
