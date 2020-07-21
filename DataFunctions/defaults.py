@@ -6,13 +6,19 @@ paragraphs = [
 
 # credentials
 
-localcredentials = {
+credentials = {
     "ip_and_port": "127.0.0.1:9200",
     "username": "elastic",
     "password": "Welcometoerni!"
 }
 
-credentials = {
+# credentials = {
+#     "ip_and_port": "ws-tst-adb.erni2.ch:9200/",
+#     "username": "elastic",
+#     "password": "Welcometoerni!"
+# }
+
+elasticsearchCredentials = {
     "ip_and_port": "ws-tst-adb.erni2.ch:9200/",
     "username": "elastic",
     "password": "Welcometoerni!"

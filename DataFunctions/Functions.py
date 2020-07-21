@@ -36,7 +36,7 @@ def preProcessParagraphs(paragraphs):
         # lemmatize
         paragraphWordsLemmatized = eda.lemmatize(paragraphWordsWithoutStopWords)
         paragraphWordsLemmatizedString = " ".join(paragraphWordsLemmatized)
-        preProcessedParagraphs.append(paragraphWordsLemmatizedString)
+        preProcessedParagraphs.append((paragraph, paragraphWordsLemmatizedString))
     return preProcessedParagraphs
 
 
@@ -49,7 +49,7 @@ def search(data):
             "size" : 500,
                 "query": {
                 "multi_match" : {
-                    "query": d, 
+                    "query": d[1], 
                     "fields": [
                         field
                     ]
@@ -57,7 +57,7 @@ def search(data):
             }
         }
         result = es.search(index="technical-paragraphs", body=doc)
-        result["inputParagraph"] = d
+        result["inputParagraph"] = d[0]
         results.append(result)
     return {"searchResults": results}
 
