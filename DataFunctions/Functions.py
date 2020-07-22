@@ -42,13 +42,15 @@ def preProcessParagraphs(paragraphs):
 
 def search(data):
     results = []
-    field = "preProcessedParagraph"
+    field = "originalParagraph"
+    # field = "preProcessedParagraph"
     for d in data:
         es = Elasticsearch(['http://' + defaults.credentials["username"] + ':' + defaults.credentials["password"] + '@' + defaults.credentials["ip_and_port"]], timeout=600)
         doc = {
             "size" : 500,
                 "query": {
                 "multi_match" : {
+                    # "query": d[0], 
                     "query": d[1], 
                     "fields": [
                         field
@@ -58,16 +60,19 @@ def search(data):
         }
         result = es.search(index="technical-paragraphs", body=doc)
         result["inputParagraph"] = d[0]
+        result["preProcessedInputParagraph"] = d[1]
         results.append(result)
     return {"searchResults": results}
 
 
 def getWordsToHighlight(data):
     for d in data["searchResults"]:
-        inputParagraph = d["inputParagraph"]
+        # inputParagraph = d["inputParagraph"]
+        inputParagraph = d["preProcessedInputParagraph"]
         paragraphWordsLemmatized = inputParagraph.split(" ")
         for hit in d["hits"]["hits"]:
             wordsToHighlight = []
+            # resultWords = hit["_source"]["originalParagraph"].split(" ")
             resultWords = hit["_source"]["preProcessedParagraph"].split(" ")
             for word in paragraphWordsLemmatized:
                 if word in resultWords:
